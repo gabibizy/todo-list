@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}" />
+    <title>TODO - List</title>
+</head>
+
+<body>
+    <div class="todo">
+        <div class="todo__title">
+            TODO - LIST
+        </div>
+        <div class="todo__list">
+            {% for todo in lista %}
+                <label class="todo__item">
+                    <input type="checkbox">
+                    <div>{{todo.titulo}}</div>
+                    <form action="delete/{{todo.id}}" method="POST">
+                        <a type="submit" onclick="return confirm('Tem certeza que deseja deletar?');"></a><button class="btn-delete delete">Deletar</button>
+                    </form>
+                </label>
+            {% endfor%}
+            <form action="/add" method="post">
+                <div class="todo__new-item" id="newItem">
+                    <input name="titulo" type="text" placeholder="Digite e pressione enter para adicionar a tarefa">
+                    <input type="submit" hidden>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+    const clickItem = (evento) => {
+        const elemento = evento.target;
+        console.log(elemento.type);
+        if (elemento.type === 'button') {
+            const indice = elemento.dataset.indice;
+            removerItem(indice);
+        } else if (elemento.type === 'checkbox') {
+            const indice = elemento.dataset.indice;
+            atualizarItem(indice);
+        }
+    }
+    document.getElementById('newItem').addEventListener('keypress', inserirItem);
+    document.getElementById('todoList').addEventListener('click', clickItem);
+</script>
+
+</html>
